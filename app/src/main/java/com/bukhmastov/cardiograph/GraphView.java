@@ -14,7 +14,13 @@ public class GraphView extends SurfaceView implements SurfaceHolder.Callback {
     public GraphView(Context context, AttributeSet attrs) {
         super(context, attrs);
         getHolder().addCallback(this);
-        ConnectionActivity.graphViews.add(Integer.MAX_VALUE - this.getId(), this);
+        switch (this.getId()){
+            case R.id.graphView1: ConnectionActivity.graphView1 = this; break;
+            case R.id.graphView2: ConnectionActivity.graphView2 = this; break;
+            case R.id.graphView3: ConnectionActivity.graphView3 = this; break;
+            case R.id.graphView4: ConnectionActivity.graphView4 = this; break;
+            case R.id.graphView5: ConnectionActivity.graphView5 = this; break;
+        }
     }
     public GraphView(Context context) {
         super(context);

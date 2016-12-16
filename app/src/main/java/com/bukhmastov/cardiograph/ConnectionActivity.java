@@ -27,7 +27,11 @@ public class ConnectionActivity extends AppCompatActivity {
     public ConnectionThread connectionThread;
 
     public LinearLayout container;
-    public static ArrayList<GraphView> graphViews = new ArrayList<>();
+    public static GraphView graphView1 = null;
+    public static GraphView graphView2 = null;
+    public static GraphView graphView3 = null;
+    public static GraphView graphView4 = null;
+    public static GraphView graphView5 = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,11 +149,11 @@ public class ConnectionActivity extends AppCompatActivity {
                     case 0x00:  // PULSE
 
                         break;
-                    case 0x01: graphViews.get(Integer.MAX_VALUE - R.id.graphView1).graphThread.incoming(value); break; // 1 graph
-                    case 0x02: graphViews.get(Integer.MAX_VALUE - R.id.graphView2).graphThread.incoming(value); break; // 2 graph
-                    case 0x03: graphViews.get(Integer.MAX_VALUE - R.id.graphView3).graphThread.incoming(value); break; // 3 graph
-                    case 0x04: graphViews.get(Integer.MAX_VALUE - R.id.graphView4).graphThread.incoming(value); break; // 4 graph
-                    case 0x05: graphViews.get(Integer.MAX_VALUE - R.id.graphView5).graphThread.incoming(value); break; // 5 graph
+                    case 0x01: if(graphView1 != null && graphView1.graphThread != null) graphView1.graphThread.incoming(value); break; // 1 graph
+                    case 0x02: if(graphView2 != null && graphView2.graphThread != null) graphView2.graphThread.incoming(value); break; // 2 graph
+                    case 0x03: if(graphView3 != null && graphView3.graphThread != null) graphView3.graphThread.incoming(value); break; // 3 graph
+                    case 0x04: if(graphView4 != null && graphView4.graphThread != null) graphView4.graphThread.incoming(value); break; // 4 graph
+                    case 0x05: if(graphView5 != null && graphView5.graphThread != null) graphView5.graphThread.incoming(value); break; // 5 graph
                 }
             }
         }
