@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Кардиограф</string>
+    <string name="bluetooth_required">Для работы приложения необходимо запустить Bluetooth</string>
+    <string name="bt_enable">Включить bluetooth</string>
+    <string name="bt_not_supported">Приложение принудительно закрыто\nBluetooth не поддерживается на устройстве</string>
+    <string name="connect">Подключиться</string>
+    <string name="mac">MAC - адрес</string>
+    <string name="bluetooth_disabled">Bluetooth disabled</string>
+    <string name="search_devices">Поиск устройств</string>
+    <string name="disclaimer">Данное приложение является учебным проектом и ни в коем случае не может быть использовано в серьезных медицинских целях\n\nИспользуйте программу на свой страх и риск</string>
+    <string name="attention">Внимание</string>
+    <string name="understood">Я все понял</string>
+    <string name="about">О проекте</string>
+    <string name="about_desc_1">Данное приложение представляет собой учебный проект \"Кардиограф\".</string>
+    <string name="about_desc_2">Цель проекта: разработка мобильного кардиографа на базе платформы Arduino с использованием устройства под управлением ОС Android.</string>
+    <string name="about_desc_3">Проект выполнили студенты Бухмастов А.Д., Кулижников Н.А., Пика Г.С. университета ИТМО под руководством Горшкова К.С.</string>
+    <string name="start_discovery_failed">Не удалось активировать поиск устройств</string>
+    <string name="preparing">Подготовка</string>
+    <string name="pulse_default">Пульс неизвестен</string>
+
+</resources>

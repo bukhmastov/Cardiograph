@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.bukhmastov.cardiograph.MainActivity"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/lobby_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/AppThemeToolbar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/btOffLayout"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/lobby_toolbar">
+
+        <Button
+            android:text="@string/bt_enable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/bt_enable_btn"
+            android:textSize="14sp"
+            android:layout_marginTop="11dp"
+            android:layout_below="@+id/bt_enable_text"
+            android:layout_centerHorizontal="true" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_bluetooth_disabled"
+            android:id="@+id/bt_enable_img"
+            android:contentDescription="@string/bluetooth_disabled"
+            android:layout_marginBottom="46dp"
+            android:layout_alignBottom="@+id/bt_enable_text"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:text="@string/bluetooth_required"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bt_enable_text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Button"
+            android:textSize="16sp"
+            android:textColor="@color/colorSecondaryText"
+            android:textAlignment="center"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="248dp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/btSelectConnectionLayout"
+        android:layout_below="@+id/lobby_toolbar"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/quickConnectLayout"
+            android:weightSum="1">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:inputType="datetime|time"
+                android:ems="10"
+                android:id="@+id/quick_connect_input"
+                android:hint="@string/mac"
+                android:selectAllOnFocus="false"
+                android:maxLines="1" />
+
+            <Button
+                android:text="@string/connect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/quick_connect_btn"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/devices_view"
+            android:footerDividersEnabled="true"
+            android:paddingTop="@dimen/activity_vertical_margin" />
+
+    </LinearLayout>
+
+</RelativeLayout>
