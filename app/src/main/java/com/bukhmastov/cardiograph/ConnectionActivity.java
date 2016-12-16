@@ -41,7 +41,7 @@ public class ConnectionActivity extends AppCompatActivity {
         btAdapter = BluetoothAdapter.getDefaultAdapter();
         if (btAdapter == null || !btAdapter.isEnabled()) finish();
         remoteDeviceMacAddress = getIntent().getStringExtra("mac");
-        if (remoteDeviceMacAddress.isEmpty() || !isMacAddr(remoteDeviceMacAddress)) finish();
+        if (remoteDeviceMacAddress.isEmpty() || !isMacAddress(remoteDeviceMacAddress)) finish();
         container = (LinearLayout) findViewById(R.id.container);
     }
     @Override
@@ -63,7 +63,7 @@ public class ConnectionActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
     }
-    private boolean isMacAddr(String mac){
+    private boolean isMacAddress(String mac){
         char[] charArr = mac.toCharArray();
         String[] parts = mac.split(":");
         if (parts.length != 6) return false;
@@ -145,11 +145,11 @@ public class ConnectionActivity extends AppCompatActivity {
                     case 0x00:  // PULSE
 
                         break;
-                    case 0x01: ConnectionActivity.graphViews.get(R.id.graphView1); break; // 1 graph
-                    case 0x02:  break; // 2 graph
-                    case 0x03:  break; // 3 graph
-                    case 0x04:  break; // 4 graph
-                    case 0x05:  break; // 5 graph
+                    case 0x01: graphViews.get(Integer.MAX_VALUE - R.id.graphView1).graphThread.incoming(value); break; // 1 graph
+                    case 0x02: graphViews.get(Integer.MAX_VALUE - R.id.graphView2).graphThread.incoming(value); break; // 2 graph
+                    case 0x03: graphViews.get(Integer.MAX_VALUE - R.id.graphView3).graphThread.incoming(value); break; // 3 graph
+                    case 0x04: graphViews.get(Integer.MAX_VALUE - R.id.graphView4).graphThread.incoming(value); break; // 4 graph
+                    case 0x05: graphViews.get(Integer.MAX_VALUE - R.id.graphView5).graphThread.incoming(value); break; // 5 graph
                 }
             }
         }

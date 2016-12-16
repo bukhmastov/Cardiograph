@@ -9,12 +9,12 @@ import android.view.SurfaceView;
 
 public class GraphView extends SurfaceView implements SurfaceHolder.Callback {
     private final static String TAG = "GraphView";
-    public GraphThread graphThread;
+    public GraphThread graphThread = null;
 
     public GraphView(Context context, AttributeSet attrs) {
         super(context, attrs);
         getHolder().addCallback(this);
-        ConnectionActivity.graphViews.add(this.getId(), this);
+        ConnectionActivity.graphViews.add(Integer.MAX_VALUE - this.getId(), this);
     }
     public GraphView(Context context) {
         super(context);
@@ -22,12 +22,12 @@ public class GraphView extends SurfaceView implements SurfaceHolder.Callback {
     }
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        graphThread = new GraphThread(getHolder(), getResources(), handler);
+        graphThread = new GraphThread(getHolder(), handler);
         graphThread.start();
     }
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
+        graphThread.setUP(width, height);
     }
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
