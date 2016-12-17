@@ -5,4 +5,5 @@
     <color name="colorAccent">#ff6e40</color>
     <color name="colorBackground">@color/background_material_light</color>
     <color name="colorSecondaryText">#212121</color>
+    <color name="darkRed">#c62828</color>
 </resources>

@@ -84,7 +84,7 @@
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:inputType="datetime|time"
+                android:inputType="textVisiblePassword"
                 android:ems="10"
                 android:id="@+id/quick_connect_input"
                 android:hint="@string/mac"

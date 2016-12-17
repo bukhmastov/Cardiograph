@@ -6,7 +6,6 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.SurfaceHolder;
 
 import java.util.Arrays;
@@ -17,7 +16,7 @@ public class GraphThread extends Thread {
     private boolean ready = false;
     private final SurfaceHolder surfaceHolder;
     private final Handler handler;
-    private final int FRAME_RATE = 60;  // syns with FRAME_RATE at arduino software
+    private final int FRAME_RATE = 40;  // syns with FRAME_RATE at arduino software
     private final int PIXEL_PER_FRAME = 2; // from 1 to 10
     private final int POINT_EMPTY = -520;
     private int width = 0, height = 0;
@@ -30,6 +29,7 @@ public class GraphThread extends Thread {
     private int gridShift = 0;
     public static int GT_DATA_LOOSING = 0;
     public static int GT_DATA_NORMAL = 1;
+    private boolean data_loosing = false;
 
     GraphThread(SurfaceHolder surfaceHolder, Handler handler) {
         this.surfaceHolder = surfaceHolder;
@@ -55,22 +55,22 @@ public class GraphThread extends Thread {
                 if(!upToDate){
                     incoming(POINT_EMPTY);
                     pointsLost++;
-                    if(pointsLost > FRAME_RATE){  // we are losing data !!!11!1
+                    if(pointsLost > FRAME_RATE * PIXEL_PER_FRAME && !data_loosing){
                         Message m = new Message();
                         Bundle b = new Bundle();
                         b.putInt("what", GT_DATA_LOOSING);
                         m.setData(b);
                         handler.sendMessage(m);
+                        data_loosing = true;
                     }
-                } else {
-                    if(pointsLost > FRAME_RATE){ // we are receiving data again )))0)0)
-                        Message m = new Message();
-                        Bundle b = new Bundle();
-                        b.putInt("what", GT_DATA_NORMAL);
-                        m.setData(b);
-                        handler.sendMessage(m);
-                        pointsLost = 0;
-                    }
+                } else if(data_loosing){
+                    Message m = new Message();
+                    Bundle b = new Bundle();
+                    b.putInt("what", GT_DATA_NORMAL);
+                    m.setData(b);
+                    handler.sendMessage(m);
+                    pointsLost = 0;
+                    data_loosing = false;
                 }
                 upToDate = false;
                 synchronized (surfaceHolder) {
@@ -155,7 +155,6 @@ public class GraphThread extends Thread {
         gridShift = 1;
         buffer = new int[(int)(graphWidthDouble / PIXEL_PER_FRAME)];
         Arrays.fill(buffer, POINT_EMPTY);
-        Log.d(TAG, "setUP " + w + " " + h);
         ready = true;
     }
     public void incoming(int point){
@@ -166,6 +165,6 @@ public class GraphThread extends Thread {
         tmp[tmp.length-1] = point;
         buffer = tmp;
         if(point != POINT_EMPTY) upToDate = true;
-        //Log.d(TAG, "incoming | pointsReceived " + pointsReceived + " | point " + point + (point == POINT_EMPTY ? " ALARM" : ""));
+        //Log.d(TAG, "incoming | point " + point + (point == POINT_EMPTY ? " ALARM" : ""));
     }
 }

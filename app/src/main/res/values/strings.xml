@@ -16,6 +16,9 @@
     <string name="about_desc_3">Проект выполнили студенты Бухмастов А.Д., Кулижников Н.А., Пика Г.С. университета ИТМО под руководством Горшкова К.С.</string>
     <string name="start_discovery_failed">Не удалось активировать поиск устройств</string>
     <string name="preparing">Подготовка</string>
-    <string name="pulse_default">Пульс неизвестен</string>
+    <string name="pulse_default">Пульс: неизвестен</string>
+    <string name="data_loosing">Потеря данных</string>
+    <string name="sync_failed">Синхронизация провалена</string>
+    <string name="repeat">Повторить</string>
 
 </resources>

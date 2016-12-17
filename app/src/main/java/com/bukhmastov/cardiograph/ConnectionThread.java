@@ -15,7 +15,6 @@ import java.nio.ByteOrder;
 
 public class ConnectionThread extends Thread {
     private final static String TAG = "ConnectionThread";
-    private boolean running = true;
     private BluetoothDevice device;
     private BluetoothSocket mmSocket;
     private InputStream mmInStream;
@@ -38,25 +37,27 @@ public class ConnectionThread extends Thread {
         int resetBytesCount = 0;
         if (this.connect()) {
             state(MESSAGE_CONNECTION, "connected_handshaking");
-            state(MESSAGE_CONNECTION, "connected_and_ready");
-            this.write((byte)0xff);
-            this.write((byte)0xff);
+            long handshakeTimeStart = System.currentTimeMillis();
             this.write((byte)0xff);
             this.flush();
-            while(!Thread.currentThread().isInterrupted() && running) {
+            while(!Thread.currentThread().isInterrupted()) {
                 try {
                     if(!isConnected) { // handshake in progress
                         if(mmInStream.available() > 0) {
-                            if((byte) mmInStream.read() == (byte) 0xff){
+                            if ((byte) mmInStream.read() == (byte) 0xee) {
                                 resetBytesCount++;
+                                if (resetBytesCount > BYTES_PER_FRAME) { // handshake done
+                                    isConnected = true;
+                                    resetBytesCount = 0;
+                                    state(MESSAGE_CONNECTION, "connected_and_ready");
+                                }
                             } else {
                                 resetBytesCount = 0;
                             }
                         }
-                        if(resetBytesCount >= BYTES_PER_FRAME + 1){ // handshake done
-                            isConnected = true;
-                            resetBytesCount = 0;
-                            state(MESSAGE_CONNECTION, "connected_and_ready");
+                        if(!isConnected && System.currentTimeMillis() - handshakeTimeStart > 2000) {
+                            state(MESSAGE_CONNECTION, "connected_handshake_failed");
+                            this.cancel();
                         }
                         continue;
                     }
@@ -68,6 +69,7 @@ public class ConnectionThread extends Thread {
                         System.arraycopy(incoming, 0, tmp, buffer.length, incoming.length);
                         buffer = tmp;
                         for(int i = 0; i < (buffer.length - buffer.length % BYTES_PER_FRAME); i += BYTES_PER_FRAME) {
+                            //Log.d(TAG, "mmInStream | new bunch | " + buffer[i] + " " + buffer[i + 1] + " " + buffer[i + 2]);
                             byte[] pair = {buffer[i + 1], buffer[i + 2]};
                             int message = (int) ByteBuffer.wrap(pair).order(ByteOrder.LITTLE_ENDIAN).getShort();
                             //Log.d(TAG, "mmInStream | type " + ((int) buffer[i]) + " | message " + message);
@@ -93,12 +95,11 @@ public class ConnectionThread extends Thread {
                     break;
                 }
             }
-            if (!Thread.currentThread().isInterrupted() && running) this.cancel();
+            if (!Thread.currentThread().isInterrupted()) this.cancel();
         }
     }
     public void cancel() {
         this.disconnect();
-        running = false;
         interrupt();
     }
     private boolean connect(){

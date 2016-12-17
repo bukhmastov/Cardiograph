@@ -10,6 +10,9 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
@@ -174,11 +178,14 @@ public class MainActivity extends AppCompatActivity {
                 try { unregisterReceiver(mReceiver); } catch (Exception e){}
             } else if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                BtDevice btDevice = new BtDevice(device.getName() == null ? "" : device.getName(), device.getAddress(), true);
-                if(!btDevices.contains(btDevice)){
-                    btDevice.isPaired = false;
-                    addToDeviceList(btDevice);
+                Boolean ok = true;
+                for(BtDevice btDevice : btDevices){
+                    if(Objects.equals(btDevice.mac, device.getAddress())){
+                        ok = false;
+                        break;
+                    }
                 }
+                if(ok) addToDeviceList(new BtDevice(device.getName() == null ? "" : device.getName(), device.getAddress(), false));
             }
         }
     };
