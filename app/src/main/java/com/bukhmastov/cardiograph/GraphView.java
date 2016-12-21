@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class GraphView extends SurfaceView implements SurfaceHolder.Callback {
-    private final static String TAG = "GraphView";
     private GraphView _this = null;
     public GraphThread graphThread = null;
 
@@ -39,7 +38,7 @@ public class GraphView extends SurfaceView implements SurfaceHolder.Callback {
     }
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        graphThread = new GraphThread(getHolder(), handler);
+        graphThread = new GraphThread(getHolder(), getContext(), handler);
         graphThread.start();
     }
     @Override
@@ -80,7 +79,7 @@ public class GraphView extends SurfaceView implements SurfaceHolder.Callback {
             else if(msg.getData().getInt("what") == GraphThread.GT_DATA_NORMAL){
                 try {
                     ((ViewGroup) findViewById(_this.getId()).getParent()).removeViewAt(1);
-                } catch(Exception e){}
+                } catch(Exception e){ /* meh */ }
             }
         }
     };

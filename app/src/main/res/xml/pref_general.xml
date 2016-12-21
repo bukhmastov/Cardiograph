@@ -1,0 +1,25 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/settings_graph">
+
+        <EditTextPreference
+            android:key="frame_rate"
+            android:title="@string/frame_rate"
+            android:numeric="integer"
+            android:selectAllOnFocus="true" />
+
+        <EditTextPreference
+            android:key="pixel_per_frame"
+            android:title="@string/pixel_per_frame"
+            android:numeric="integer"
+            android:selectAllOnFocus="true" />
+
+        <EditTextPreference
+            android:key="max_point_abs"
+            android:title="@string/max_point_abs"
+            android:numeric="integer"
+            android:selectAllOnFocus="true" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

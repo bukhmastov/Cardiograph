@@ -7,12 +7,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,23 +29,24 @@ import java.util.Objects;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
-    private final static String TAG = "MainActivity";
-    public final static String APP_PREFERENCES = "appsettings";
+    public static int theme;
     private BluetoothAdapter btAdapter;
     private ArrayList<BtDevice> btDevices = new ArrayList<>();
     private DeviceListView foundedDevicesAdapter;
     private Menu menu;
     private RelativeLayout btOffLayout;
     private LinearLayout btSelectConnectionLayout;
-    private ListView devices_view;
-    private Button bt_enable_btn, quick_connect_btn;
     private EditText quick_connect_input;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         setSupportActionBar((Toolbar) findViewById(R.id.lobby_toolbar));
-        getSupportActionBar().setLogo(R.mipmap.ic_launcher_simple);
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar != null) {
+            actionBar.setLogo(R.mipmap.ic_launcher_simple);
+        }
         btAdapter = BluetoothAdapter.getDefaultAdapter();
         if(btAdapter == null){
             Toast.makeText(getBaseContext(), R.string.bt_not_supported, Toast.LENGTH_SHORT).show();
@@ -54,15 +55,15 @@ public class MainActivity extends AppCompatActivity {
         if(btAdapter.isDiscovering()) btAdapter.cancelDiscovery();
         btOffLayout = (RelativeLayout) findViewById(R.id.btOffLayout);
         btSelectConnectionLayout = (LinearLayout) findViewById(R.id.btSelectConnectionLayout);
-        devices_view = (ListView) findViewById(R.id.devices_view);
-        bt_enable_btn = (Button) findViewById(R.id.bt_enable_btn);
-        quick_connect_btn = (Button) findViewById(R.id.quick_connect_btn);
         quick_connect_input = (EditText) findViewById(R.id.quick_connect_input);
+        foundedDevicesAdapter = new DeviceListView(this, btDevices);
+        ListView devices_view = (ListView) findViewById(R.id.devices_view);
+        Button bt_enable_btn = (Button) findViewById(R.id.bt_enable_btn);
+        Button quick_connect_btn = (Button) findViewById(R.id.quick_connect_btn);
         bt_enable_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), 0); }
         });
-        foundedDevicesAdapter = new DeviceListView(this, btDevices);
         devices_view.setAdapter(foundedDevicesAdapter);
         devices_view.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) { connect(btDevices.get(position).mac); }
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) { connect(quick_connect_input.getText().toString()); }
         });
-        if((this.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE)).getBoolean("storage_disclaimer", true)) {
+        if(sharedPreferences.getBoolean("storage_disclaimer", true)) {
             Intent intent = new Intent(this, DisclaimerActivity.class);
             startActivity(intent);
         }
@@ -86,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         if(btAdapter.isDiscovering()) btAdapter.cancelDiscovery();
-        try{ unregisterReceiver(bluetoothState); } catch (Exception e){}
+        try{ unregisterReceiver(bluetoothState); } catch (Exception e){ /* meh */ }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -96,9 +97,14 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
         switch (item.getItemId()) {
             case R.id.action_about:
-                Intent intent = new Intent(this, AboutActivity.class);
+                intent = new Intent(this, AboutActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_settings:
+                intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 return true;
             case R.id.action_toggle_search:
@@ -135,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
             int permissionCheck = this.checkSelfPermission("Manifest.permission.ACCESS_FINE_LOCATION") + this.checkSelfPermission("Manifest.permission.ACCESS_COARSE_LOCATION");
             if(permissionCheck != 0) this.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1001);
         }
-        try { unregisterReceiver(mReceiver); } catch (Exception e){}
+        try { unregisterReceiver(mReceiver); } catch (Exception e){ /* meh */ }
         IntentFilter filter = new IntentFilter();
         filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
         filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
@@ -175,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
                 menu.findItem(R.id.action_toggle_search).setIcon(R.drawable.ic_bluetooth_connected);
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
                 menu.findItem(R.id.action_toggle_search).setIcon(R.drawable.ic_bluetooth_search);
-                try { unregisterReceiver(mReceiver); } catch (Exception e){}
+                try { unregisterReceiver(mReceiver); } catch (Exception e){ /* meh */ }
             } else if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 Boolean ok = true;

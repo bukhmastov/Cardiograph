@@ -54,7 +54,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/disclaimer_button"
         android:layout_weight="0.03"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/colorSecondary"
         android:elevation="0dp"
         android:textColor="@color/colorBackground"
         android:textSize="14sp" />

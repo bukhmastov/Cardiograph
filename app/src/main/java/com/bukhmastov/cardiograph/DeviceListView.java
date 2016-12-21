@@ -2,7 +2,6 @@ package com.bukhmastov.cardiograph;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,7 @@ import java.util.Objects;
 public class DeviceListView extends ArrayAdapter<BtDevice> {
     private final Activity context;
     private final ArrayList<BtDevice> btDevices;
-    public DeviceListView(Activity context, ArrayList<BtDevice> btDevices) {
+    DeviceListView(Activity context, ArrayList<BtDevice> btDevices) {
         super(context, R.layout.listview_item_device_name_mac, btDevices);
         this.context = context;
         this.btDevices = btDevices;

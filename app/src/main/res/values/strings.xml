@@ -20,5 +20,10 @@
     <string name="data_loosing">Потеря данных</string>
     <string name="sync_failed">Синхронизация провалена</string>
     <string name="repeat">Повторить</string>
+    <string name="settings">Настройки</string>
+    <string name="settings_graph">Настройки графиков</string>
+    <string name="frame_rate">Частота (обновления/секунда)</string>
+    <string name="pixel_per_frame">Пиксели на значение</string>
+    <string name="max_point_abs">Максимальный диапазон</string>
 
 </resources>

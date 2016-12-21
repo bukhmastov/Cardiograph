@@ -1,24 +1,27 @@
 package com.bukhmastov.cardiograph;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.view.SurfaceHolder;
 
 import java.util.Arrays;
 
 public class GraphThread extends Thread {
-    private final static String TAG = "GraphThread";
     private boolean running = true;
     private boolean ready = false;
     private final SurfaceHolder surfaceHolder;
     private final Handler handler;
-    private final int FRAME_RATE = 40;  // syns with FRAME_RATE at arduino software
-    private final int PIXEL_PER_FRAME = 2; // from 1 to 10
-    private final int POINT_EMPTY = -520;
+    private final int FRAME_RATE;
+    private final int PIXEL_PER_FRAME;
+    private final int MAX_POINT_ABS;
+    private final int POINT_EMPTY;
     private int width = 0, height = 0;
     private int middle;
     private double middleDouble, middleDoubleRatio, graphWidthDouble;
@@ -27,13 +30,18 @@ public class GraphThread extends Thread {
     private Paint graphLine, gridLine, gridBoldLine;
     private int[] buffer;
     private int gridShift = 0;
-    public static int GT_DATA_LOOSING = 0;
-    public static int GT_DATA_NORMAL = 1;
+    static int GT_DATA_LOOSING = 0;
+    static int GT_DATA_NORMAL = 1;
     private boolean data_loosing = false;
 
-    GraphThread(SurfaceHolder surfaceHolder, Handler handler) {
+    GraphThread(SurfaceHolder surfaceHolder, Context context, Handler handler) {
         this.surfaceHolder = surfaceHolder;
         this.handler = handler;
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        FRAME_RATE = Integer.parseInt(sharedPreferences.getString("frame_rate", "40"));
+        PIXEL_PER_FRAME = Integer.parseInt(sharedPreferences.getString("pixel_per_frame", "2"));
+        MAX_POINT_ABS = Integer.parseInt(sharedPreferences.getString("max_point_abs", "250"));
+        POINT_EMPTY = -(MAX_POINT_ABS + 100);
         graphLine = new Paint();
         graphLine.setColor(Color.RED);
         graphLine.setStrokeWidth(2);
@@ -141,23 +149,25 @@ public class GraphThread extends Thread {
             }
         }
     }
-    public void cancel() {
+    void cancel() {
         running = false;
         interrupt();
     }
-    public void setUP(int w, int h){
+    void setUP(int w, int h){
         width = w;
         height = h;
         middle = height/2;
         middleDouble = (double)height / 2.0;
-        middleDoubleRatio = middleDouble / 511.0;
-        graphWidthDouble = (double) width;
+        middleDoubleRatio = middleDouble / (double)MAX_POINT_ABS;
+        graphWidthDouble = (double)width;
         gridShift = 1;
         buffer = new int[(int)(graphWidthDouble / PIXEL_PER_FRAME)];
         Arrays.fill(buffer, POINT_EMPTY);
         ready = true;
     }
-    public void incoming(int point){
+    void incoming(int point){
+        if(point >  MAX_POINT_ABS && point != POINT_EMPTY) point =  MAX_POINT_ABS;
+        if(point < -MAX_POINT_ABS && point != POINT_EMPTY) point = -MAX_POINT_ABS;
         int[] tmp = new int[buffer.length];
         Arrays.fill(tmp, POINT_EMPTY);
         System.arraycopy(buffer, 1, tmp, 0, buffer.length - 1);

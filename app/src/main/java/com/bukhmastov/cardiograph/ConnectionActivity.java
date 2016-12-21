@@ -20,7 +20,6 @@ import android.widget.TextView;
 import java.util.Objects;
 
 public class ConnectionActivity extends AppCompatActivity {
-    private final static String TAG = "ConnectionActivity";
     private BluetoothAdapter btAdapter;
     private String remoteDeviceMacAddress;
     private String remoteDeviceName;
@@ -39,9 +38,11 @@ public class ConnectionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_connection);
         setSupportActionBar((Toolbar) findViewById(R.id.connection_toolbar));
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(R.string.app_name);
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        if(actionBar != null) {
+            actionBar.setTitle(R.string.app_name);
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
         btAdapter = BluetoothAdapter.getDefaultAdapter();
         if (btAdapter == null || !btAdapter.isEnabled()) finish();
         remoteDeviceMacAddress = getIntent().getStringExtra("mac");
@@ -75,7 +76,7 @@ public class ConnectionActivity extends AppCompatActivity {
         ((ViewGroup) findViewById(R.id.container)).addView((((LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.connection_state, null)), 0, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         BluetoothDevice btDevice = btAdapter.getRemoteDevice(remoteDeviceMacAddress);
         remoteDeviceName = btDevice.getName();
-        connectionThread = new ConnectionThread(btDevice, handler);
+        connectionThread = new ConnectionThread(btDevice, getBaseContext(), handler);
         connectionThread.start();
     }
 

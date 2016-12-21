@@ -2,9 +2,12 @@ package com.bukhmastov.cardiograph;
 
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import java.io.IOException;
@@ -20,14 +23,17 @@ public class ConnectionThread extends Thread {
     private InputStream mmInStream;
     private OutputStream mmOutStream;
     private Handler handler;
+    private final int FRAME_RATE;
     private final int BYTES_PER_FRAME = 3;
-    public static int MESSAGE_CONNECTION = 0;
-    public static int MESSAGE_DISCONNECTION = 1;
-    public static int MESSAGE = 2;
+    static int MESSAGE_CONNECTION = 0;
+    static int MESSAGE_DISCONNECTION = 1;
+    static int MESSAGE = 2;
 
-    ConnectionThread(BluetoothDevice device, Handler handler) {
+    ConnectionThread(BluetoothDevice device, Context context, Handler handler) {
         this.device = device;
         this.handler = handler;
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        FRAME_RATE = Integer.parseInt(sharedPreferences.getString("frame_rate", "40"));
     }
     public void run(){
         byte[] buffer = new byte[0];
@@ -39,6 +45,8 @@ public class ConnectionThread extends Thread {
             state(MESSAGE_CONNECTION, "connected_handshaking");
             long handshakeTimeStart = System.currentTimeMillis();
             this.write((byte)0xff);
+            this.write((byte)FRAME_RATE);
+            this.write((byte)BYTES_PER_FRAME);
             this.flush();
             while(!Thread.currentThread().isInterrupted()) {
                 try {

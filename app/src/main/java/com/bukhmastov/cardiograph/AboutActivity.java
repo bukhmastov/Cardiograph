@@ -13,9 +13,11 @@ public class AboutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_about);
         setSupportActionBar((Toolbar) findViewById(R.id.about_toolbar));
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(R.string.about);
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        if(actionBar != null) {
+            actionBar.setTitle(R.string.about);
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
