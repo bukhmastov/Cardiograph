@@ -116,17 +116,17 @@ public class GraphThread extends Thread {
                             counter = 0;
                             for (int j = i - 1; j > 0; j--) {
                                 if(buffer[j] == POINT_EMPTY){
-                                    if(counter > FRAME_RATE/2){
-                                        i = j - 1;
+                                    if(counter > (FRAME_RATE * PIXEL_PER_FRAME) / 2){
+                                        i = j;
                                         break;
                                     }
                                     counter++;
                                 } else {
-                                    double xFROM = graphWidthDouble - PIXEL_PER_FRAME * (buffer.length + 1 - i);
-                                    double xT0 =   graphWidthDouble - PIXEL_PER_FRAME * (buffer.length - 1 - j);
+                                    double xFROM = graphWidthDouble - PIXEL_PER_FRAME * (buffer.length - j);
+                                    double xT0 =   graphWidthDouble - PIXEL_PER_FRAME * (buffer.length - i);
                                     double yFROM = middleDouble - buffer[j] * middleDoubleRatio;
                                     double yTO =   middleDouble - buffer[i] * middleDoubleRatio;
-                                    canvas.drawLine((int)xT0, (int)yTO, (int)xFROM, (int)yFROM, graphLine);
+                                    canvas.drawLine((int)xFROM, (int)yFROM, (int)xT0, (int)yTO, graphLine);
                                     i = j + 1;
                                     break;
                                 }

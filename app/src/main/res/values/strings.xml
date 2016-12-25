@@ -23,7 +23,20 @@
     <string name="settings">Настройки</string>
     <string name="settings_graph">Настройки графиков</string>
     <string name="frame_rate">Частота (обновления/секунда)</string>
-    <string name="pixel_per_frame">Пиксели на значение</string>
-    <string name="max_point_abs">Максимальный диапазон</string>
+    <string name="pixel_per_frame">Пиксели на значение (пиксели)</string>
+    <string name="max_point_abs">Максимальный диапазон (пиксели)</string>
+    <string name="graph_height">Высота графика (пиксели)</string>
+    <string name="pulse">Пульс</string>
+    <string name="sync">sync</string>
+    <string name="unknown">Неизвестен</string>
+    <string name="calibration">Калибровка</string>
+    <string name="measuring">Измерение</string>
+    <string name="hits_per_min">" уд/мин"</string>
+    <string name="frequent">Частый</string>
+    <string name="rare">Редкий</string>
+    <string name="moderate">Умеренный</string>
+    <string name="pulse_so_low">Ваша остановочка</string>
+    <string name="settings_pulse">Измерение пульса</string>
+    <string name="p_measuring_duration">Время измерения (секунды)</string>
 
 </resources>

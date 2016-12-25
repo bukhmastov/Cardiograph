@@ -24,6 +24,7 @@ public class ConnectionThread extends Thread {
     private OutputStream mmOutStream;
     private Handler handler;
     private final int FRAME_RATE;
+    private final int P_MEASURING_DURATION;
     private final int BYTES_PER_FRAME = 3;
     static int MESSAGE_CONNECTION = 0;
     static int MESSAGE_DISCONNECTION = 1;
@@ -34,6 +35,7 @@ public class ConnectionThread extends Thread {
         this.handler = handler;
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         FRAME_RATE = Integer.parseInt(sharedPreferences.getString("frame_rate", "40"));
+        P_MEASURING_DURATION = Integer.parseInt(sharedPreferences.getString("p_measuring_duration", "20"));
     }
     public void run(){
         byte[] buffer = new byte[0];
@@ -47,6 +49,7 @@ public class ConnectionThread extends Thread {
             this.write((byte)0xff);
             this.write((byte)FRAME_RATE);
             this.write((byte)BYTES_PER_FRAME);
+            this.write((byte)P_MEASURING_DURATION);
             this.flush();
             while(!Thread.currentThread().isInterrupted()) {
                 try {
@@ -172,5 +175,8 @@ public class ConnectionThread extends Thread {
         b.putString("state", state);
         m.setData(b);
         handler.sendMessage(m);
+    }
+    public void pulseCalibrate(){
+        this.write((byte)0xee);
     }
 }

@@ -20,6 +20,22 @@
             android:numeric="integer"
             android:selectAllOnFocus="true" />
 
+        <EditTextPreference
+            android:key="graph_height"
+            android:title="@string/graph_height"
+            android:numeric="integer"
+            android:selectAllOnFocus="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/settings_pulse">
+
+        <ListPreference
+            android:title="@string/p_measuring_duration"
+            android:key="p_measuring_duration"
+            android:entries="@array/p_measuring_duration_values"
+            android:entryValues="@array/p_measuring_duration_items" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

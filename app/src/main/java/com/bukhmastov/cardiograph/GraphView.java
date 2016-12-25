@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -12,19 +13,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class GraphView extends SurfaceView implements SurfaceHolder.Callback {
-    private GraphView _this = null;
     public GraphThread graphThread = null;
 
     public GraphView(Context context, AttributeSet attrs) {
         super(context, attrs);
         getHolder().addCallback(this);
-        _this = this;
         init();
     }
     public GraphView(Context context) {
         super(context);
         getHolder().addCallback(this);
-        _this = this;
         init();
     }
     private void init(){
@@ -38,6 +36,10 @@ public class GraphView extends SurfaceView implements SurfaceHolder.Callback {
     }
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
+        ViewGroup.LayoutParams lp = this.getLayoutParams();
+        lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        lp.height = (int)(Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(getContext()).getString("graph_height", "100")) * getContext().getResources().getDisplayMetrics().density);
+        this.setLayoutParams(lp);
         graphThread = new GraphThread(getHolder(), getContext(), handler);
         graphThread.start();
     }
@@ -74,11 +76,11 @@ public class GraphView extends SurfaceView implements SurfaceHolder.Callback {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) label.setTextColor(getResources().getColor(R.color.darkRed, null));
                 label.setAllCaps(true);
                 label.setTypeface(null, Typeface.BOLD);
-                ((ViewGroup) findViewById(_this.getId()).getParent()).addView(label);
+                ((ViewGroup) findViewById(getId()).getParent()).addView(label);
             }
             else if(msg.getData().getInt("what") == GraphThread.GT_DATA_NORMAL){
                 try {
-                    ((ViewGroup) findViewById(_this.getId()).getParent()).removeViewAt(1);
+                    ((ViewGroup) findViewById(getId()).getParent()).removeViewAt(1);
                 } catch(Exception e){ /* meh */ }
             }
         }

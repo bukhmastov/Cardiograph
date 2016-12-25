@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,6 +33,8 @@ public class ConnectionActivity extends AppCompatActivity {
     public static GraphView graphView4 = null;
     public static GraphView graphView5 = null;
 
+    private boolean pulseIsShowing = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +49,7 @@ public class ConnectionActivity extends AppCompatActivity {
         btAdapter = BluetoothAdapter.getDefaultAdapter();
         if (btAdapter == null || !btAdapter.isEnabled()) finish();
         remoteDeviceMacAddress = getIntent().getStringExtra("mac");
-        if (remoteDeviceMacAddress.isEmpty() || !isMacAddress(remoteDeviceMacAddress)) finish();
+        if (remoteDeviceMacAddress.isEmpty() || !BluetoothAdapter.checkBluetoothAddress(remoteDeviceMacAddress)) finish();
         container = (LinearLayout) findViewById(R.id.container);
     }
     @Override
@@ -58,18 +61,11 @@ public class ConnectionActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         connectionThread.cancel();
+        connectionThread = null;
     }
     @Override
     protected void onDestroy() {
         super.onDestroy();
-    }
-    private boolean isMacAddress(String mac){
-        char[] charArr = mac.toCharArray();
-        String[] parts = mac.split(":");
-        if (parts.length != 6) return false;
-        for (String part : parts) if(part.length() != 2) return false;
-        for (char c : charArr) if ("0123456789ABCDEFabcdef:".indexOf(c) == -1) return false;
-        return true;
     }
     private void connect(){
         container.removeAllViews();
@@ -92,6 +88,13 @@ public class ConnectionActivity extends AppCompatActivity {
                     LayoutInflater vi = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     View v = vi.inflate(R.layout.connected_interface, null);
                     ((ViewGroup) findViewById(R.id.container)).addView(v, 0, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                    LinearLayout gg = (LinearLayout) findViewById(R.id.pulse_layout);
+                    gg.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if(connectionThread != null) connectionThread.pulseCalibrate();
+                        }
+                    });
                 } else if(Objects.equals(state, "connected_handshake_failed")) {
                     Snackbar.make(findViewById(R.id.container), getString(R.string.sync_failed), Snackbar.LENGTH_LONG).setAction(R.string.repeat, new View.OnClickListener() {
                                 @Override
@@ -153,7 +156,41 @@ public class ConnectionActivity extends AppCompatActivity {
                 int value = msg.getData().getInt("value");
                 switch (type){
                     case (byte) 0x00:  // PULSE
-
+                        if(value < 0){
+                            FrameLayout pulse_info_layout = (FrameLayout) findViewById(R.id.pulse_info_layout);
+                            pulse_info_layout.removeAllViews();
+                            LayoutInflater vi = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                            View v = vi.inflate(R.layout.pulse_state, null);
+                            ((ViewGroup) findViewById(R.id.pulse_info_layout)).addView(v, 0, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                            TextView pulse_state_text = (TextView) findViewById(R.id.pulse_state_text);
+                            switch(value){
+                                case -2: pulse_state_text.setText(R.string.calibration); break;
+                                case -1: pulse_state_text.setText(R.string.measuring); break;
+                            }
+                            pulseIsShowing = false;
+                        } else {
+                            if(!pulseIsShowing) {
+                                FrameLayout pulse_info_layout = (FrameLayout) findViewById(R.id.pulse_info_layout);
+                                pulse_info_layout.removeAllViews();
+                                LayoutInflater vi = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                                View v = vi.inflate(R.layout.pulse_value, null);
+                                ((ViewGroup) findViewById(R.id.pulse_info_layout)).addView(v, 0, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                                pulseIsShowing = true;
+                            }
+                            String pulseTxt = value + getString(R.string.hits_per_min);
+                            TextView pulse_value_text = (TextView) findViewById(R.id.pulse_value);
+                            pulse_value_text.setText(pulseTxt);
+                            TextView pulse_desc_text = (TextView) findViewById(R.id.pulse_desc);
+                            if(value < 20){
+                                pulse_desc_text.setText(R.string.pulse_so_low);
+                            } else if(value < 60){
+                                pulse_desc_text.setText(R.string.rare);
+                            } else if(value > 90){
+                                pulse_desc_text.setText(R.string.frequent);
+                            } else {
+                                pulse_desc_text.setText(R.string.moderate);
+                            }
+                        }
                         break;
                     case (byte) 0x01: if(graphView1 != null && graphView1.graphThread != null) graphView1.graphThread.incoming(value); break; // 1 graph
                     case (byte) 0x02: if(graphView2 != null && graphView2.graphThread != null) graphView2.graphThread.incoming(value); break; // 2 graph

@@ -31,6 +31,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             bindPreferenceSummaryToValue(findPreference("frame_rate"));
             bindPreferenceSummaryToValue(findPreference("pixel_per_frame"));
             bindPreferenceSummaryToValue(findPreference("max_point_abs"));
+            bindPreferenceSummaryToValue(findPreference("graph_height"));
+            bindPreferenceSummaryToValue(findPreference("p_measuring_duration"));
         }
 
         @Override
@@ -51,34 +53,20 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             int int_value;
             String value_verified = value;
             String message = "";
+            int min_range = Integer.MIN_VALUE;
+            int max_range = Integer.MAX_VALUE;
             switch(key){
-                case "frame_rate":
-                    int_value = Integer.parseInt(value);
-                    if(int_value < 1 || int_value > 60){
-                        if(int_value < 1) int_value = 1;
-                        if(int_value > 60) int_value = 60;
-                        value_verified = String.valueOf(int_value);
-                        message = "Необходим диапазон: 1 - 60";
-                    }
-                    break;
-                case "pixel_per_frame":
-                    int_value = Integer.parseInt(value);
-                    if(int_value < 1 || int_value > 10){
-                        if(int_value < 1) int_value = 1;
-                        if(int_value > 10) int_value = 10;
-                        value_verified = String.valueOf(int_value);
-                        message = "Необходим диапазон: 1 - 10";
-                    }
-                    break;
-                case "max_point_abs":
-                    int_value = Integer.parseInt(value);
-                    if(int_value < 1 || int_value > 512){
-                        if(int_value < 1) int_value = 1;
-                        if(int_value > 512) int_value = 512;
-                        value_verified = String.valueOf(int_value);
-                        message = "Необходим диапазон: 1 - 512";
-                    }
-                    break;
+                case "frame_rate": min_range = 1; max_range = 166; break;
+                case "pixel_per_frame": min_range = 1; max_range = 10; break;
+                case "max_point_abs": case "graph_height": min_range = 1; max_range = 512; break;
+                case "p_measuring_duration": min_range = 10; max_range = 60; break;
+            }
+            int_value = Integer.parseInt(value);
+            if(int_value < min_range || int_value > max_range){
+                if(int_value < min_range) int_value = min_range;
+                if(int_value > max_range) int_value = max_range;
+                value_verified = String.valueOf(int_value);
+                message = "Необходим диапазон: " + min_range + " - " + max_range;
             }
             if(!Objects.equals(value, value_verified)){
                 Snackbar.make(getActivity().findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show();
