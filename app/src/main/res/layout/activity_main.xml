@@ -5,7 +5,7 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.bukhmastov.cardiograph.MainActivity"
+    tools:context="com.bukhmastov.cardiograph.activities.MainActivity"
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true">
 
@@ -69,8 +69,6 @@
         android:layout_height="match_parent"
         android:id="@+id/btSelectConnectionLayout"
         android:layout_below="@+id/lobby_toolbar"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
         android:paddingBottom="@dimen/activity_vertical_margin">
 
@@ -79,7 +77,9 @@
             android:layout_width="match_parent"
             android:id="@+id/quickConnectLayout"
             android:weightSum="1"
-            android:layout_height="50dp">
+            android:layout_height="50dp"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin" >
 
             <EditText
                 android:layout_width="wrap_content"

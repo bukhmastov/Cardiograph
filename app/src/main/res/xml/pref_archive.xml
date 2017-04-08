@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:key="pref_use_archiving"
+        android:title="@string/pref_use_archiving_title"
+        android:defaultValue="true" />
+
+    <Preference
+        android:key="pref_clear_archive"
+        android:title="@string/pref_clear_archive_title" />
+
+</PreferenceScreen>

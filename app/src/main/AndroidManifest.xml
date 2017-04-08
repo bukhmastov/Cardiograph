@@ -14,42 +14,53 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".SplashActivity"
-            android:theme="@style/SplashTheme">
+            android:name=".activities.SplashActivity"
+            android:theme="@style/SplashTheme"
+            android:noHistory="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity android:name=".activities.MainActivity" />
         <activity
-            android:name=".ConnectionActivity"
-            android:parentActivityName=".MainActivity">
+            android:name=".activities.ConnectionActivity"
+            android:parentActivityName=".activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.bukhmastov.cardiograph.MainActivity" />
+                android:value="com.bukhmastov.cardiograph.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".DisclaimerActivity"
-            android:parentActivityName=".MainActivity">
+            android:name=".activities.ArchiveActivity"
+            android:label="@string/archive"
+            android:parentActivityName=".activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.bukhmastov.cardiograph.MainActivity" />
+                android:value="com.bukhmastov.cardiograph.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".AboutActivity"
-            android:parentActivityName=".MainActivity">
+            android:name=".activities.ReplayActivity"
+            android:label="@string/replay"
+            android:parentActivityName=".activities.ArchiveActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.bukhmastov.cardiograph.MainActivity" />
+                android:value="com.bukhmastov.cardiograph.activities.ArchiveActivity" />
         </activity>
         <activity
-            android:name=".SettingsActivity"
-            android:parentActivityName=".MainActivity">
+            android:name=".activities.DisclaimerActivity"
+            android:parentActivityName=".activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.bukhmastov.cardiograph.MainActivity" />
+                android:value="com.bukhmastov.cardiograph.activities.MainActivity" />
+        </activity>
+        <activity android:name=".activities.AboutActivity" />
+        <activity
+            android:name=".activities.SettingsActivity"
+            android:label="@string/settings"
+            android:parentActivityName=".activities.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.bukhmastov.cardiograph.activities.MainActivity" />
         </activity>
     </application>
 

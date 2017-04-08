@@ -1,41 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="@string/settings_graph">
+    <EditTextPreference
+        android:key="frame_rate"
+        android:title="@string/frame_rate"
+        android:numeric="integer"
+        android:selectAllOnFocus="true"
+        android:defaultValue="80" />
 
-        <EditTextPreference
-            android:key="frame_rate"
-            android:title="@string/frame_rate"
-            android:numeric="integer"
-            android:selectAllOnFocus="true" />
+    <EditTextPreference
+        android:key="pixel_per_frame"
+        android:title="@string/pixel_per_frame"
+        android:numeric="integer"
+        android:selectAllOnFocus="true"
+        android:defaultValue="2" />
 
-        <EditTextPreference
-            android:key="pixel_per_frame"
-            android:title="@string/pixel_per_frame"
-            android:numeric="integer"
-            android:selectAllOnFocus="true" />
+    <EditTextPreference
+        android:key="max_point_abs"
+        android:title="@string/max_point_abs"
+        android:numeric="integer"
+        android:selectAllOnFocus="true"
+        android:defaultValue="250" />
 
-        <EditTextPreference
-            android:key="max_point_abs"
-            android:title="@string/max_point_abs"
-            android:numeric="integer"
-            android:selectAllOnFocus="true" />
-
-        <EditTextPreference
-            android:key="graph_height"
-            android:title="@string/graph_height"
-            android:numeric="integer"
-            android:selectAllOnFocus="true" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/settings_pulse">
-
-        <ListPreference
-            android:title="@string/p_measuring_duration"
-            android:key="p_measuring_duration"
-            android:entries="@array/p_measuring_duration_values"
-            android:entryValues="@array/p_measuring_duration_items" />
-
-    </PreferenceCategory>
+    <EditTextPreference
+        android:key="graph_height"
+        android:title="@string/graph_height"
+        android:numeric="integer"
+        android:selectAllOnFocus="true"
+        android:defaultValue="100" />
 
 </PreferenceScreen>

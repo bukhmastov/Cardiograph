@@ -11,4 +11,7 @@
     <color name="colorBackground">@color/background_material_light</color>
     <color name="colorSecondaryText">#212121</color>
     <color name="darkRed">#c62828</color>
+
+    <color name="colorSeparator">#e0e0e0</color>
+
 </resources>

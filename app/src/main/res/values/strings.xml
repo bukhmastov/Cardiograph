@@ -14,20 +14,19 @@
     <string name="about_desc_1">Данное приложение представляет собой учебный проект \"Кардиограф\".</string>
     <string name="about_desc_2">Цель проекта: разработка мобильного кардиографа на базе платформы Arduino с использованием устройства под управлением ОС Android.</string>
     <string name="about_desc_3">Проект выполнили студенты Бухмастов А.Д., Кулижников Н.А., Пика Г.С. университета ИТМО под руководством Горшкова К.С.</string>
-    <string name="start_discovery_failed">Не удалось активировать поиск устройств</string>
     <string name="preparing">Подготовка</string>
-    <string name="pulse_default">Пульс: неизвестен</string>
     <string name="data_loosing">Потеря данных</string>
     <string name="sync_failed">Синхронизация провалена</string>
     <string name="repeat">Повторить</string>
     <string name="settings">Настройки</string>
-    <string name="settings_graph">Настройки графиков</string>
+    <string name="settings_graph">Графики</string>
     <string name="frame_rate">Частота (обновления/секунда)</string>
     <string name="pixel_per_frame">Пиксели на значение (пиксели)</string>
     <string name="max_point_abs">Максимальный диапазон (пиксели)</string>
     <string name="graph_height">Высота графика (пиксели)</string>
+    <string name="settings_archiving">Архивирование</string>
+    <string name="pref_use_archiving_title">Архивировать измерения</string>
     <string name="pulse">Пульс</string>
-    <string name="sync">sync</string>
     <string name="unknown">Неизвестен</string>
     <string name="calibration">Калибровка</string>
     <string name="measuring">Измерение</string>
@@ -36,7 +35,19 @@
     <string name="rare">Редкий</string>
     <string name="moderate">Умеренный</string>
     <string name="pulse_so_low">Ваша остановочка</string>
-    <string name="settings_pulse">Измерение пульса</string>
-    <string name="p_measuring_duration">Время измерения (секунды)</string>
+    <string name="archive">Архив</string>
+    <string name="download">Скачать</string>
+    <string name="delete">Удалить</string>
+    <string name="share">Поделиться</string>
+    <string name="file_deleted">Файл удален</string>
+    <string name="settings_arduino">Ардуино</string>
+    <string name="pref_arduino_average_tolerance_title">Допуск среднего значения</string>
+    <string name="pref_arduino_max_tolerance_title">Допуск максимального значения</string>
+    <string name="pref_clear_archive_title">Очистить архив</string>
+    <string name="proceed">Продолжить</string>
+    <string name="something_went_wrong">Что-то пошло не так</string>
+    <string name="archive_cleared">Архив очищен</string>
+    <string name="pref_clear_archive_warning">Вы собираетесь удалить все архивные записи.\nДанное действие необратимо.</string>
+    <string name="replay">Воспроизведение сессии</string>
 
 </resources>

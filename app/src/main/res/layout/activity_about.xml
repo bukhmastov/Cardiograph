@@ -5,7 +5,7 @@
     android:id="@+id/activity_about"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.bukhmastov.cardiograph.AboutActivity">
+    tools:context="com.bukhmastov.cardiograph.activities.AboutActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/about_toolbar"
@@ -31,10 +31,9 @@
         android:paddingBottom="@dimen/activity_vertical_margin">
 
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/about_desc_1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView2"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textSize="16sp" />
 
@@ -43,10 +42,9 @@
             android:layout_height="10sp" />
 
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/about_desc_2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView3"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textSize="16sp" />
 
@@ -55,10 +53,9 @@
             android:layout_height="10sp" />
 
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/about_desc_3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView4"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textSize="16sp" />
 
@@ -67,10 +64,9 @@
             android:layout_height="10sp" />
 
         <TextView
-            android:text="@string/attention"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView5"
+            android:text="@string/attention"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         <Space
@@ -78,10 +74,9 @@
             android:layout_height="10sp" />
 
         <TextView
-            android:text="@string/disclaimer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView6"
+            android:text="@string/disclaimer"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textSize="16sp" />
     </LinearLayout>

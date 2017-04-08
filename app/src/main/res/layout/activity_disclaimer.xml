@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.bukhmastov.cardiograph.DisclaimerActivity"
+    tools:context="com.bukhmastov.cardiograph.activities.DisclaimerActivity"
     android:orientation="vertical"
     android:weightSum="1"
     android:background="@color/colorPrimary">

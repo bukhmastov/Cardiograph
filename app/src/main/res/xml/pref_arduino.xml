@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:key="pref_arduino_average_tolerance"
+        android:title="@string/pref_arduino_average_tolerance_title"
+        android:numeric="integer"
+        android:selectAllOnFocus="true"
+        android:defaultValue="20" />
+
+    <EditTextPreference
+        android:key="pref_arduino_max_tolerance"
+        android:title="@string/pref_arduino_max_tolerance_title"
+        android:numeric="integer"
+        android:selectAllOnFocus="true"
+        android:defaultValue="10" />
+
+</PreferenceScreen>

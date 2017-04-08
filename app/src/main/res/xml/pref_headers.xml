@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <header
+        android:fragment="com.bukhmastov.cardiograph.activities.SettingsActivity$GeneralPreferenceFragment"
+        android:icon="@drawable/ic_multiline_chart"
+        android:title="@string/settings_graph" />
+
+    <header
+        android:fragment="com.bukhmastov.cardiograph.activities.SettingsActivity$ArduinoPreferenceFragment"
+        android:icon="@drawable/ic_memory"
+        android:title="@string/settings_arduino" />
+
+    <header
+        android:fragment="com.bukhmastov.cardiograph.activities.SettingsActivity$ArchivePreferenceFragment"
+        android:icon="@drawable/ic_save"
+        android:title="@string/settings_archiving" />
+
+    <header
+        android:fragment="com.bukhmastov.cardiograph.activities.SettingsActivity$AboutPreferenceFragment"
+        android:icon="@drawable/ic_info_outline"
+        android:title="@string/about" />
+
+</preference-headers>
